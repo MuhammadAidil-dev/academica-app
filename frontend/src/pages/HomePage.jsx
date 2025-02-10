@@ -1,5 +1,16 @@
+import MainLayout from '../components/layouts/MainLayout';
+import FeatureSection from './content/home/FeatureSection';
+import HeroSection from './content/home/HeroSection';
+import QuestionSection from './content/home/QuestionSection';
+
 const HomePage = () => {
-  return <h1 className="text-primary text-5xl font-bold">Hello world!</h1>;
+  return (
+    <MainLayout>
+      <HeroSection />
+      <FeatureSection />
+      <QuestionSection />
+    </MainLayout>
+  );
 };
 
 export default HomePage;

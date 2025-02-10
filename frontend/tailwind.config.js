@@ -6,6 +6,7 @@ export default {
       colors: {
         primary: '#001F3F',
         background: '#F5F7F8',
+        dark: '#0f172a',
       },
       fontFamily: {
         lora: ['Lora', 'sans-serif'],
