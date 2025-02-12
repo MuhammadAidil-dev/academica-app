@@ -11,6 +11,9 @@ export default {
       fontFamily: {
         lora: ['Lora', 'sans-serif'],
       },
+      backgroundImage: {
+        decorative: "url('/assets/decorative-bg.png')",
+      },
     },
   },
   plugins: [],

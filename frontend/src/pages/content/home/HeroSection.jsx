@@ -1,3 +1,5 @@
+import DecorativeElement from '../../../components/elements/DecorativeElement';
+
 const HeroSection = () => {
   return (
     <div className="relative items-center h-screen w-full">
@@ -25,18 +27,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-0 w-full lg:-bottom-8">
-        <img
-          src="/assets/vector-wave.png"
-          alt="vektor"
-          className="w-full object-cover lg:hidden"
-        />
-        <img
-          src="/assets/Vector.png"
-          alt="vektor"
-          className="hidden w-full object-cover lg:block"
-        />
-      </div>
+      <DecorativeElement />
     </div>
   );
 };
