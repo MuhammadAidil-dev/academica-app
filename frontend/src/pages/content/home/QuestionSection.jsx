@@ -1,3 +1,5 @@
+import Accordion from '../../../components/elements/Accordion';
+
 const QuestionSection = () => {
   const listQuestion = [
     {
@@ -25,19 +27,6 @@ const QuestionSection = () => {
         'Diskusi terstruktur berdasarkan kategori dan tag, Jawaban terverifikasi oleh dosen, Notifikasi real-time untuk aktivitas thread, Unggah materi pembelajaran resmi.',
     },
   ];
-
-  const Accordion = ({ title, content }) => {
-    return (
-      <details className="p-2 border-b border-b-dark border-opacity-20">
-        <summary className="text-sm font-semibold text-primary md:text-base lg:text-lg">
-          {title}
-        </summary>
-        <p className="text-xs text-dark mt-2 text-justify lg:text-sm">
-          {content}
-        </p>
-      </details>
-    );
-  };
 
   return (
     <div className="bg-background py-8 px-[5%] flex flex-col pb-10">
