@@ -60,7 +60,7 @@ const NavbarDesktop = () => {
           Sign In
         </a>
         <a
-          href="/login"
+          href="/register"
           className="bg-white border border-primary font-semibold text-primary py-2 text-xs flex justify-center items-center w-[80px] rounded-sm"
         >
           Sign Up
@@ -124,7 +124,7 @@ const Sidebar = ({ isOpen }) => {
     >
       <div className="flex flex-col p-4 gap-4">
         <a
-          href="/about"
+          href="/"
           className="flex items-center gap-1 border-b border-b-slate-300 p-1 hover:text-primary transition-colors hover:bg-background rounded-sm"
         >
           <span>
@@ -142,7 +142,7 @@ const Sidebar = ({ isOpen }) => {
           About
         </a>
         <a
-          href="/about"
+          href="/faq"
           className="flex items-center gap-1 border-b border-b-slate-300 p-1 hover:text-primary transition-colors hover:bg-background rounded-sm"
         >
           <span>
@@ -151,7 +151,7 @@ const Sidebar = ({ isOpen }) => {
           FAQ
         </a>
         <a
-          href="/about"
+          href="/forum"
           className="flex items-center gap-1 border-b border-b-slate-300 p-1 hover:text-primary transition-colors hover:bg-background rounded-sm"
         >
           <span>
@@ -168,7 +168,7 @@ const Sidebar = ({ isOpen }) => {
           Sign In
         </a>
         <a
-          href="/login"
+          href="/register"
           className="bg-white border border-primary font-semibold text-primary py-2 px-1 text-xs flex justify-center items-center w-[80px] rounded-sm"
         >
           Sign Up
