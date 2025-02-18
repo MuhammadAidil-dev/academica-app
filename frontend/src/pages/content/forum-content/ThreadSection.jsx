@@ -2,8 +2,12 @@ import { FiFilter } from 'react-icons/fi';
 import ThreadList from './ThreadList';
 import ButtonPaginate from '../../../components/elements/ButtonPaginate';
 import { SearchForum } from '../../../components/elements/search';
+import CreateThread from '../../../components/fragments/thread/CreateThread';
+import { useState } from 'react';
 
 const ThreadSection = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col py-4 px-[5%] lg:px-8 lg:ml-[300px] lg:flex-1 xl:ml-[400px]">
       <div className="lg:hidden">
@@ -11,6 +15,7 @@ const ThreadSection = () => {
       </div>
       <div className="flex items-center justify-between border-b border-b-slate-500 pb-4">
         <button
+          onClick={() => setIsOpen(true)}
           type="button"
           className="bg-primary font-semibold text-xs text-white rounded-sm py-2 px-4 cursor-pointer"
         >
@@ -20,6 +25,7 @@ const ThreadSection = () => {
       </div>
       <ThreadList />
       <Pagination />
+      <CreateThread isOpen={isOpen} closeModal={() => setIsOpen(false)} />
     </div>
   );
 };
