@@ -23,4 +23,14 @@ const testconnection = async () => {
 
 testconnection();
 
-module.exports = sequelize;
+// sinkronisasi database
+const syncDatabase = async () => {
+  try {
+    await sequelize.sync({ alter: true });
+    console.log('Database sync');
+  } catch (error) {
+    console.log('Error to sync database', error);
+  }
+};
+
+module.exports = { sequelize, syncDatabase };

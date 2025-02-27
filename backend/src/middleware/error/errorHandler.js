@@ -3,20 +3,29 @@ const errorHandler = (err, req, res, next) => {
     name: err.name,
     status: err.statusCode,
     stack: err.stack,
+    path: err.path ?? '',
   });
 
   switch (err.name) {
     case 'NotFoundError':
       return res.status(err.statusCode).json({
         status: 'error',
-        type: err.name,
+        message: err.message,
+      });
+    case 'SequelizeError':
+      return res.status(err.statusCode).json({
+        status: 'error',
+        message: err.message,
+      });
+    case 'ValidationError':
+      return res.status(err.statusCode).json({
+        status: 'error',
         message: err.message,
       });
 
     default:
       return res.status(500).json({
         status: 'error',
-        type: 'UnknownError',
         message: 'An unexpected error occurred',
       });
   }
