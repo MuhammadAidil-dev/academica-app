@@ -27,4 +27,16 @@ const createUserSchema = Joi.object({
     }),
 });
 
-module.exports = { createUserSchema };
+const loginUserSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    'string.email': 'Format email tidak valid',
+    'string.empty': 'Email wajib diisi',
+    'any.required': 'Email wajib diisi',
+  }),
+  password: Joi.string().min(8).required().messages({
+    'string.min': 'Password minimal 8 karakter',
+    'any.required': 'Password wajib diisi',
+  }),
+});
+
+module.exports = { createUserSchema, loginUserSchema };

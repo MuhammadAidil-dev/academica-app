@@ -1,5 +1,9 @@
-const { SequelizeError } = require('../../middleware/error/errorTypes');
+const {
+  SequelizeError,
+  ValidationError,
+} = require('../../middleware/error/errorTypes');
 const User = require('../../models/user/User');
+const bcrypt = require('bcryptjs');
 
 const userController = {
   createUser: async (req, res, next) => {
@@ -28,6 +32,41 @@ const userController = {
         next(sequelizeError);
       }
 
+      next(error);
+    }
+  },
+  loginUser: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+
+      const user = await User.findOne({
+        where: { email },
+      });
+
+      if (!user) {
+        throw new ValidationError('Email atau password salah');
+      }
+
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        throw new ValidationError('Email atau password salah');
+      }
+
+      const authUser = {
+        fullname: user.fullname,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
+        status: user.status,
+      };
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'berhasil login',
+        authUser,
+      });
+    } catch (error) {
       next(error);
     }
   },
