@@ -4,6 +4,7 @@ const {
 } = require('../../middleware/error/errorTypes');
 const User = require('../../models/user/User');
 const bcrypt = require('bcryptjs');
+const { createToken } = require('../../utils/util');
 
 const userController = {
   createUser: async (req, res, next) => {
@@ -60,6 +61,16 @@ const userController = {
         avatar: user.avatar,
         status: user.status,
       };
+
+      const token = createToken(authUser);
+
+      // Set access token sebagai cookie untuk SPA
+      res.cookie('accessToken', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 15 * 60 * 1000, // 15 menit
+      });
 
       return res.status(200).json({
         status: 'success',
