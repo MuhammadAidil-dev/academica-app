@@ -17,6 +17,7 @@ route.post(
   validateRequest(loginUserSchema),
   userController.loginUser
 );
+route.post('/logout', userController.logoutUser);
 route.delete('/:id', userController.deleteUserById);
 
 module.exports = route;

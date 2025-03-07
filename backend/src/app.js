@@ -4,11 +4,19 @@ const { syncDatabase } = require('./config/database');
 const routes = require('./routes');
 const errorHandler = require('./middleware/error/ErrorHandler');
 const { NotFoundError } = require('./middleware/error/errorTypes');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
 const PORT = 5000;
 
 // middleware
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 app.use(express.json());
 
 // routes

@@ -5,11 +5,43 @@ const validateRequest = (schema) => {
     const { error, value } = schema.validate(req.body);
 
     if (error) {
-      const message = error.details[0].message;
-      next(new ValidationError(message));
+      const validationError = new ValidationError(error.details[0].message);
+      validationError.path = error.details[0].path;
+      return next(validationError);
     }
+    req.body = value;
     next();
   };
 };
 
-module.exports = { validateRequest };
+const validateParams = (schema) => {
+  return (req, res, next) => {
+    const { error, value } = schema.validate(req.params);
+
+    if (error) {
+      const validationError = new ValidationError(error.details[0].message);
+      validationError.path = error.details[0].path;
+      return next(validationError);
+    }
+
+    req.params = value;
+    next();
+  };
+};
+
+const validateQuery = (schema) => {
+  return (req, res, next) => {
+    const { error, value } = schema.validate(req.query);
+
+    if (error) {
+      const validationError = new ValidationError(error.details[0].message);
+      validationError.path = error.details[0].path;
+      return next(validationError);
+    }
+
+    req.query = value;
+    next();
+  };
+};
+
+module.exports = { validateRequest, validateParams, validateQuery };

@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { SequelizeError } = require('../middleware/error/errorTypes');
 
 const hashPassword = async (password) => {
   const saltRounds = 10;
@@ -14,4 +15,11 @@ const createToken = (payload) => {
   return token;
 };
 
-module.exports = { hashPassword, createToken };
+const handleSequelizeError = (error) => {
+  const sequelizeError = new SequelizeError(error.errors[0].message);
+  sequelizeError.path = error?.errors[0]?.path || '';
+
+  return sequelizeError;
+};
+
+module.exports = { hashPassword, createToken, handleSequelizeError };

@@ -22,7 +22,6 @@ const userController = {
         .status(200)
         .json({ status: 'success', message: 'Register berhasil' });
     } catch (error) {
-      console.log(error);
       if (error.name.startsWith('Sequelize')) {
         const message = error.errors[0].message;
         const path = error.errors[0].path;
@@ -30,10 +29,10 @@ const userController = {
         const sequelizeError = new SequelizeError(message);
         sequelizeError.path = path;
 
-        next(sequelizeError);
+        return next(sequelizeError);
       }
 
-      next(error);
+      return next(error);
     }
   },
   loginUser: async (req, res, next) => {
@@ -54,6 +53,7 @@ const userController = {
       }
 
       const authUser = {
+        id_user: user.id_user,
         fullname: user.fullname,
         username: user.username,
         email: user.email,
@@ -76,6 +76,22 @@ const userController = {
         status: 'success',
         message: 'berhasil login',
         authUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  logoutUser: async (req, res, next) => {
+    try {
+      res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+      });
+
+      return res.json({
+        status: 'success',
+        message: 'success to logout',
       });
     } catch (error) {
       next(error);
