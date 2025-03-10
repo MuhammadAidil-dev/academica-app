@@ -1,7 +1,4 @@
-const {
-  SequelizeError,
-  NotFoundError,
-} = require('../../middleware/error/errorTypes');
+const { NotFoundError } = require('../../middleware/error/errorTypes');
 const { User, Thread } = require('../../models/association');
 const { handleSequelizeError } = require('../../utils/util');
 
