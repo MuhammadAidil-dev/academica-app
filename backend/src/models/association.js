@@ -1,4 +1,6 @@
+const Category = require('./category/Category');
 const Thread = require('./thread/Thread');
+const ThreadCategories = require('./threadCategories/ThreadCategories');
 const User = require('./user/User');
 
 // One-to-Many: User -> Thread
@@ -22,4 +24,23 @@ Thread.belongsTo(User, {
   onDelete: 'CASCADE',
 });
 
-module.exports = { User, Thread };
+// many-to-many: Thread - Category -> ThreadCategories
+Thread.belongsToMany(Category, {
+  through: ThreadCategories,
+  foreignKey: 'id_thread',
+  otherKey: 'id_category',
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE',
+  as: 'categories',
+});
+
+Category.belongsToMany(Thread, {
+  through: ThreadCategories,
+  foreignKey: 'id_category',
+  otherKey: 'id_thread',
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE',
+  as: 'threads',
+});
+
+module.exports = { User, Thread, Category, ThreadCategories };

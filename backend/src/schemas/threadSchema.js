@@ -19,6 +19,11 @@ const createThreadSchema = Joi.object({
   likes_thread: Joi.number().integer().default(0).messages({
     'number.base': 'likes harus bertipe integer',
   }),
+  categories: Joi.array().items(Joi.string()).required().messages({
+    'string.base': 'Kategori harus berupa string',
+    'any.required': 'kategori thread harus disertakan',
+    'array.base': 'Kategori harus berupa array of string',
+  }),
 });
 
 const updatedThreadSchema = Joi.object({

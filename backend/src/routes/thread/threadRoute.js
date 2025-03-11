@@ -11,6 +11,7 @@ const {
   idThreadParamSchema,
   paginationSchema,
 } = require('../../schemas/threadSchema');
+const EnsureCategoriesExist = require('../../middleware/EnsureCategoriesExist');
 
 const route = express.Router();
 
@@ -18,6 +19,7 @@ const route = express.Router();
 route.post(
   '/',
   validateRequest(createThreadSchema),
+  EnsureCategoriesExist,
   threadController.createThread
 );
 

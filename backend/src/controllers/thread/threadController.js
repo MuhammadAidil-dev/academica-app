@@ -1,13 +1,12 @@
 const { NotFoundError } = require('../../middleware/error/errorTypes');
-const { User, Thread } = require('../../models/association');
+const { User, Thread, Category } = require('../../models/association');
 const { handleSequelizeError } = require('../../utils/util');
 
 const threadController = {
   createThread: async (req, res, next) => {
     try {
-      const { title, content, status, likes_thread } = req.body;
+      const { title, content, status, likes_thread, categories } = req.body;
       const { id_user } = req.user;
-
       const user = await User.findByPk(id_user);
 
       if (!user) {
@@ -21,12 +20,31 @@ const threadController = {
         likes_thread,
       });
 
+      await thread.addCategories(categories);
+
+      const threadWithCategories = await Thread.findByPk(thread.id_thread, {
+        attributes: { exclude: 'id_user' },
+        include: [
+          {
+            model: User,
+            as: 'author',
+            attributes: ['id_user', 'username'],
+          },
+          {
+            model: Category,
+            as: 'categories',
+            attributes: ['name'],
+            through: {
+              attributes: [],
+            },
+          },
+        ],
+      });
+
       return res.status(201).json({
         status: 'success',
         message: 'Berhasil membuat thread',
-        data: {
-          thread,
-        },
+        data: threadWithCategories,
       });
     } catch (error) {
       // error sequelize
@@ -41,7 +59,7 @@ const threadController = {
   getAllThreads: async (req, res, next) => {
     try {
       const { page } = req.query;
-      const limit = 5;
+      const limit = 15;
       const offset = (page - 1) * limit;
 
       const { count, rows: threads } = await Thread.findAndCountAll({
@@ -53,6 +71,15 @@ const threadController = {
             model: User,
             as: 'author',
             attributes: ['id_user', 'username', 'avatar'],
+          },
+          {
+            model: Category,
+            as: 'categories',
+            attributes: ['name'],
+            // agar data dari junction table tidak ikut terinclude
+            through: {
+              attributes: [],
+            },
           },
         ],
       });
