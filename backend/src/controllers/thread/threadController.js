@@ -146,7 +146,26 @@ const threadController = {
     try {
       const { id_thread } = req.params;
 
-      const thread = await Thread.findByPk(id_thread);
+      const thread = await Thread.findByPk(id_thread, {
+        attributes: {
+          exclude: 'id_user',
+        },
+        include: [
+          {
+            model: User,
+            as: 'author',
+            attributes: ['id_user', 'username'],
+          },
+          {
+            model: Category,
+            as: 'categories',
+            attributes: ['name'],
+            through: {
+              attributes: [],
+            },
+          },
+        ],
+      });
 
       if (!thread) {
         throw new NotFoundError('Thread tidak ditemukan');
@@ -164,7 +183,7 @@ const threadController = {
   updateThread: async (req, res, next) => {
     try {
       const { id_thread } = req.params;
-      const updatesData = req.body;
+      const { categories = [], ...updatesData } = req.body;
       const { id_user } = req.user;
 
       const thread = await Thread.findOne({ where: { id_thread, id_user } });
@@ -173,6 +192,11 @@ const threadController = {
       }
 
       const updatedThread = await thread.update(updatesData);
+
+      if (categories.length > 0) {
+        await thread.setCategories([]);
+        await thread.addCategories(categories);
+      }
 
       return res.status(200).json({
         status: 'success',

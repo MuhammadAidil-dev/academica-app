@@ -41,6 +41,7 @@ route.put(
   '/:id_thread',
   validateParams(idThreadParamSchema),
   validateRequest(updatedThreadSchema),
+  EnsureCategoriesExist,
   threadController.updateThread
 );
 
